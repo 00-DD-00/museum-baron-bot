@@ -10,7 +10,7 @@
 4. Откройте файл .env и заполните необходимые поля:
    - accessToken - токен доступа для API VK; [Получить его можно тут](https://oauth.vk.com/authorize?client_id=6287487&scope=1073737727&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1)
    - userId - ваш ID пользователя VK;
-5. Откройте install.bat
+5. Откройте install.bat.
 6. Запустите бота командой: npm start.
 
 ## Важно
