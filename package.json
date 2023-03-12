@@ -1,5 +1,5 @@
 {
-  "name": "lol",
+  "name": "museum-baron-bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "vk.com/crawler1990",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.3",
