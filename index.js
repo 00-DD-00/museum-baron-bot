@@ -102,21 +102,28 @@ async function main() {
         const fPersPromise = visiteeIdsPromise.then(visiteeIds => request(apiUrl, visiteeIds));
         const [result, fPers] = await Promise.all([resultPromise, fPersPromise]);
 
-        const arr = Object.keys(fPers.museumsBuilt);
-        for (const id of museumMap.keys()) {
-            if (!arr.includes(id)) {
-                const cost = museumMap.get(id);
+        const purchasedMuseums = new Set(Object.keys(fPers.museumsBuilt));
+        const messages = [];
+
+        museumMap.forEach((cost, id) => {
+            if (!purchasedMuseums.has(id)) {
                 if (fPers.totalMoney >= cost) {
                     fPers.totalMoney -= cost;
-                    console.log(`Куплено ${id}\nОсталось денег: ${fPers.totalMoney}\n\n\n`);
-                    await request(apiUrl, [], id);
-                    break;
+                    messages.push(`Куплено ${id}\nОсталось денег: ${fPers.totalMoney}`);
+                    request(apiUrl, [], id);
+                    return false;
                 } else {
-                    console.log(`Денег: ${fPers.totalMoney}\nОсталось до след.покупки: ${cost - fPers.totalMoney}\nПолучаем: ${fPers.incomePerSecond}/сек\n\n\n`);
-                    break;
+                    messages.push(`Денег: ${fPers.totalMoney}\nОсталось до след.покупки: ${cost - fPers.totalMoney}\nПолучаем: ${fPers.incomePerSecond}/сек`);
+                    return true;
                 }
             }
+        });
+
+        if (purchasedMuseums.size === museumMap.size) {
+            messages.push(`Денег: ${fPers.totalMoney}\nПолучаем: ${fPers.incomePerSecond}/сек`);
         }
+
+        console.log(messages.join('\n\n\n'));
 
         await sleep(2000);
     }
